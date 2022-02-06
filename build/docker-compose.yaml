@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '3002:5432'
+    volumes:
+      - ../sql:/docker-entrypoint-initdb.d
+
+  url_shortener:
+    container_name: url_shortener
+    image: a0x5f/url_shortener
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./configs:/configs
+    depends_on:
+      - postgres
